@@ -1,4 +1,5 @@
-﻿using QuizBattle.Domain;
+﻿using static System.Console;
+using QuizBattle.Domain;
 
 namespace QuizBattle.Console;
 
@@ -11,22 +12,31 @@ public class QuestionUtils
 
     public static void DisplayQuestion()
     {
-        throw new NotImplementedException();
+        System.Console.WriteLine("Hur många ben har en apa? ");
     }
 
     public static int GetAnswer()
     {
-        throw new NotImplementedException();
+        const int maxCount = 4;
+
+        int pick;
+
+        while (!int.TryParse(System.Console.ReadLine(), out pick) || pick < 1 || pick > maxCount)
+        {
+            System.Console.Write("Ogiltigt val. Försök igen: ");
+        }
+
+        return pick;
     }
 
     public static void CheckAnswer(int answer)
     {
-        throw new NotImplementedException();
+        // Do nothing
     }
 
     public static void WriteStatus()
     {
-        throw new NotImplementedException();
+        // Do nothing
     }
 
     public static List<Question> SeedQuestions()
