@@ -22,8 +22,8 @@ app.MapGet("/", async (IHttpClientFactory factory) =>
     // Gör anropet (hämtar rå JSON-text eftersom vi inte har någon DTO)
     string json = await client.GetStringAsync("users/github");
 
-    // Serialisera json till ett objekt
-    var content = await Seri
+    // omvandla json till ett objekt
+    //var content = JsonSerializer.Deserialize<object>(json);
 
     return json;
 });

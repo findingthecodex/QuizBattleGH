@@ -14,7 +14,7 @@ namespace QuizBattle.Tests
             var service = new QuestionService(repo);
 
             // För närvarande finns 3 seedade frågor. Begär 4 => ska kasta.
-            Assert.Throws<ArgumentOutOfRangeException>(() => service.GetRandomQuestions(4));
+            Assert.Throws<ArgumentOutOfRangeException>(() => service.GetRandomQuestionsAsync(4));
         }
     }
 }
