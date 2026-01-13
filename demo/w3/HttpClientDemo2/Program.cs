@@ -23,7 +23,10 @@ app.MapGet("/", async (IHttpClientFactory factory) =>
     string json = await client.GetStringAsync("users/github");
 
     // omvandla json till ett objekt
-    //var content = JsonSerializer.Deserialize<object>(json);
+    var content = JsonSerializer.Deserialize<object>(json);
+
+    // omvandla ett objet till json
+    var json2 = JsonSerializer.Serialize(content);
 
     return json;
 });
