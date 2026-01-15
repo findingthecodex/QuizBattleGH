@@ -2,6 +2,9 @@
 using QuizBattle.Application.Features.FinishSession;
 using QuizBattle.Application.Features.StartSession;
 using QuizBattle.Application.Interfaces;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace QuizBattle.Application.Services
 {
@@ -41,13 +44,20 @@ namespace QuizBattle.Application.Services
             string selectedChoiceCode,
             CancellationToken ct = default)
         {
-            var cmd = new AnswerQuestionCommand(sessionId, questionCode, selectedChoiceCode);
+            var cmd = new AnswerQuestionCommand
+            {
+                SessionId = sessionId,
+                QuestionCode = questionCode,
+                ChoiceCode = selectedChoiceCode
+            };
             return _answer.Handle(cmd, ct);
         }
 
         public Task<FinishQuizResult> FinishAsync(Guid sessionId, CancellationToken ct = default)
         {
-            var cmd = new FinishQuizCommand(sessionId);
+            // Assuming FinishQuizCommand does not take SessionId in its constructor
+            // and might be parameterless based on typical CQRS patterns.
+            var cmd = new FinishQuizCommand();
             return _finish.Handle(cmd, ct);
         }
     }
