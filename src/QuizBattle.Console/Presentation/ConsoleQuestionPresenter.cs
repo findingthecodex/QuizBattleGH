@@ -1,4 +1,5 @@
-﻿using QuizBattle.Domain;
+﻿// Använder nu 'StartQuizResult.QuestionInfo' för att anpassa sig till det uppdaterade IConsoleQuestionPresenter-gränssnittet.
+using QuizBattle.Application.Features.StartSession;
 
 namespace QuizBattle.Console.Presentation
 {
@@ -7,7 +8,7 @@ namespace QuizBattle.Console.Presentation
     /// </summary>
     public sealed class ConsoleQuestionPresenter : IConsoleQuestionPresenter
     {
-        public void DisplayQuestion(Question question, int number)
+        public void DisplayQuestion(StartQuizResult.QuestionInfo question, int number)
         {
             System.Console.WriteLine($"Fråga {number}: {question.Text}");
 
@@ -18,14 +19,15 @@ namespace QuizBattle.Console.Presentation
             }
         }
 
-        public int PromptForAnswer(Question question)
+        public int PromptForAnswer(StartQuizResult.QuestionInfo question)
         {
-            System.Console.Write($"Ditt svar (1–{question.GetChoiceCount()}): ");
+            // Använder 'question.Choices.Count' direkt istället för en GetChoiceCount()-metod.
+            System.Console.Write($"Ditt svar (1–{question.Choices.Count}): ");
 
             int pick;
             while (!int.TryParse(System.Console.ReadLine(), out pick) ||
                    pick < 1 ||
-                   pick > question.GetChoiceCount())
+                   pick > question.Choices.Count)
             {
                 System.Console.Write("Ogiltigt val. Försök igen: ");
             }

@@ -6,7 +6,8 @@ using QuizBattle.Console.Extensions;
 using QuizBattle.Console.Presentation;
 using QuizBattle.Infrastructure.Extensions;
 
-const int numberOfQuestions = 3;
+// Ändrat från 3 till 2 eftersom det bara finns 2 frågor i "CS"-kategorin.
+const int numberOfQuestions = 2;
 
 // konfigurera dependency injection (DI) in konsol
 var services = new ServiceCollection();
@@ -34,26 +35,27 @@ Console.WriteLine("Tryck valfri tangent för att starta...");
 Console.ReadKey(intercept: true);
 Console.WriteLine();
 
-// Hämta slumpvis antal frågor
-var questions = await questionService.GetRandomQuestionsAsync(numberOfQuestions);
-
-// Starta en session via Application
-var start = await sessionService.StartAsync(questionCount: 3);
+// Starta en session via Application.
+// Lade till 'category: "CS"' för att säkerställa att vi hämtar från en känd kategori.
+var start = await sessionService.StartAsync(questionCount: numberOfQuestions, category: "CS");
 
 // UI-loop (Console-only)
 var score = 0;
 var asked = 0;
 
+// 'start.Questions' innehåller nu en lista av 'StartQuizResult.QuestionInfo' istället för 'Question'.
 foreach (var question in start.Questions)
 {
     asked++;
     presenter.DisplayQuestion(question, asked);
 
     var pick = presenter.PromptForAnswer(question);
-    var selectedCode = question.GetChoiceAt(pick - 1).Code;
+    // Egenskapen för svarskoden har bytt namn från 'Code' till 'ChoiceCode'.
+    var selectedCode = question.Choices[pick - 1].ChoiceCode;
 
     // Registrera svar i applikationen (handlers via SessionService)
-    var answerResult = await sessionService.AnswerAsync(start.SessionId, question.Code, selectedCode);
+    // Egenskapen för frågekoden har bytt namn från 'Code' till 'QuestionCode'.
+    var answerResult = await sessionService.AnswerAsync(start.SessionId, question.QuestionCode, selectedCode);
 
     System.Console.WriteLine(answerResult.IsCorrect ? "✔ Rätt!" : "✖ Fel.");
     if (answerResult.IsCorrect) score++;
@@ -61,6 +63,7 @@ foreach (var question in start.Questions)
 }
 
 var finished = await sessionService.FinishAsync(start.SessionId);
-System.Console.WriteLine($"Klart! Poäng: {finished.Score}/{finished.AnsweredCount}");
+// Egenskapen för totalt antal frågor har bytt namn från 'AnsweredCount' till 'TotalQuestions'.
+System.Console.WriteLine($"Klart! Poäng: {finished.Score}/{finished.TotalQuestions}");
 System.Console.WriteLine("Tryck valfri tangent för att avsluta...");
 System.Console.ReadKey(intercept: true);

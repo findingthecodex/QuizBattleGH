@@ -1,4 +1,6 @@
-﻿using QuizBattle.Domain;
+﻿// Använder nu 'StartQuizResult.QuestionInfo' från Application-lagret istället för 'Question' från Domain-lagret.
+// Detta minskar kopplingen mellan UI och domänmodellen.
+using QuizBattle.Application.Features.StartSession;
 
 namespace QuizBattle.Console.Presentation
 {
@@ -9,7 +11,7 @@ namespace QuizBattle.Console.Presentation
     /// </summary>
     public interface IConsoleQuestionPresenter
     {
-        void DisplayQuestion(Question question, int number);
-        int PromptForAnswer(Question question);
+        void DisplayQuestion(StartQuizResult.QuestionInfo question, int number);
+        int PromptForAnswer(StartQuizResult.QuestionInfo question);
     }
 }
