@@ -36,10 +36,6 @@ public sealed class StartQuizHandler
         await _sessionRepository.SaveAsync(session, ct);
 
         // ÄNDRING: Returnera resultat med objekt initializer (inte konstruktor).
-        return new StartQuizResult
-        {
-            SessionId = session.Id,
-            Questions = questions
-        };
+        return new StartQuizResult(questions, session.Id);
     }
 }

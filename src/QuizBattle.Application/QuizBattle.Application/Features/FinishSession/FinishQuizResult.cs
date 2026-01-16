@@ -1,7 +1,3 @@
 namespace QuizBattle.Application.Features.FinishSession;
 
-public class FinishQuizResult
-{
-    public string Score { get; set; }
-    public string AnsweredCount { get; set; }
-}
+public sealed record FinishQuizResult(string Score, string AnsweredCount);

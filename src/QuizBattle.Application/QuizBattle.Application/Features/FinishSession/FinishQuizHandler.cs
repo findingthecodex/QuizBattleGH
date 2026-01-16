@@ -33,10 +33,9 @@ public sealed class FinishQuizHandler
         await _sessionRepository.UpdateAsync(session, ct);
 
         // ÄNDRING: Returnera resultat med objekt initializer. Score och AnsweredCount konverteras till string.
-        return new FinishQuizResult
-        {
-            Score = session.Score.ToString(),
-            AnsweredCount = session.Answers.Count.ToString()
-        };
+        return new FinishQuizResult(
+            session.Score.ToString(),
+            session.Answers?.Count.ToString() ?? "0"
+        );
     }
 }

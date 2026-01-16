@@ -45,10 +45,7 @@ public class AnswerQuestionHandler
         // Uppdatera sessionen i repository.
         await _sessionRepository.UpdateAsync(session, ct);
 
-        // ÄNDRING: Returnera resultat med objekt initializer (inte konstruktor).
-        return new AnswerQuestionResult
-        {
-            IsCorrect = isCorrect
-        };
+        // ÄNDRING: Returnera resultat med primär konstruktor (IsCorrect, CorrectChoiceCode).
+        return new AnswerQuestionResult(isCorrect, question.CorrectAnswerCode);
     }
 }
